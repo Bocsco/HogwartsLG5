@@ -1,0 +1,38 @@
+import requests
+
+class Address:
+    def __init__(self):
+        # 获取token
+        url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww6702b1fe92bfc193&corpsecret=DFXwtlh7wKhYoHJRcx6XFbMp6EbEM5EMlnFpNeihTi0"
+        r = requests.get(url)
+        self.token = r.json()['access_token']
+
+    def add_member(self,userid:str,name:str,mobile:str,department:list,**kwargs):
+        url = f'https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token={self.token}'
+        body = {
+            "userid": userid,
+            "name": name,
+            "mobile": mobile,
+            "department": department,
+        }
+        r = requests.post(url, json=body)
+        return r.json()
+
+    def get_member(self,userid:str):
+        url = f'https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={self.token}&userid=userid'
+        r = requests.get(url)
+        return r.json()
+
+    def update_member(self,userid:str,name:str,**kwargs):
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/user/update?access_token={self.token}"
+        body = {
+            'userid': userid,
+            'name': name,
+        }
+        r = requests.post(url, json=body)
+        return r.json()
+
+    def delete_member(self,userid:str):
+        url = f'https://qyapi.weixin.qq.com/cgi-bin/user/delete?access_token={self.token}&userid=userid'
+        r = requests.get(url)
+        return r.json()
